@@ -1,0 +1,78 @@
+*glossa.nvim*  Minimal language-learning scaffold for Neovim
+
+Author: local workspace scaffold
+
+==============================================================================
+INTRODUCTION                                                   *glossa-intro*
+
+glossa.nvim is a small Lua plugin scaffold for a language-learning workflow.
+It is inspired by the quick lookup UX of vim-translator, but organized around
+study cards instead of one-off translation results.
+
+==============================================================================
+COMMANDS                                                     *glossa-commands*
+
+:GlossaLookup [text]                                          *:GlossaLookup*
+    Look up explicit text, the current range, or the word under cursor.
+
+:GlossaSave                                                    *:GlossaSave*
+    Save the last lookup result to the local card store.
+
+:GlossaReview                                                *:GlossaReview*
+    Show cards whose |next_review_at| is due.
+
+:GlossaStats                                                  *:GlossaStats*
+    Show total and due card counts.
+
+==============================================================================
+CONFIGURATION                                                 *glossa-config*
+
+Example: >lua
+    require("glossa").setup({
+      provider = "google",
+      target_lang = "ko",
+    })
+<
+
+Available options:
+
+    provider       Provider module name under |lua/glossa/providers/|
+    source_lang    Source language, default "auto"
+    target_lang    Target language, default "ko"
+    data_file      JSON storage file for saved cards
+    google.endpoint
+    google.timeout_ms
+    window.border  Floating window border style
+    window.max_width
+    window.max_height
+
+==============================================================================
+MAPPINGS                                                     *glossa-mappings*
+
+glossa.nvim defines only |<Plug>| mappings.
+
+    <Plug>(GlossaLookup)
+    <Plug>(GlossaSave)
+    <Plug>(GlossaReview)
+    <Plug>(GlossaStats)
+
+Example: >lua
+    vim.keymap.set("n", "<leader>gl", "<Plug>(GlossaLookup)")
+    vim.keymap.set("x", "<leader>gl", "<Plug>(GlossaLookup)")
+    vim.keymap.set("n", "<leader>gs", "<Plug>(GlossaSave)")
+<
+
+==============================================================================
+NOTES                                                          *glossa-notes*
+
+The default provider is |google|, which uses the same public endpoint style as
+vim-translator. It requires |curl| to be available in your shell.
+
+The bundled |mock| provider is still useful for UI or storage testing when you
+do not want to make network requests.
+
+To enable |:help| lookup, run:
+
+    :helptags {path-to-glossa.nvim}/doc
+
+vim:tw=78:ts=8:sw=2:et:ft=help
