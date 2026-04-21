@@ -6,6 +6,7 @@ This first version is intentionally small:
 
 - capture the current word, visual selection, range, or explicit text
 - display the result in a floating window
+- replace the current word or selection with a translation
 - save the last lookup result as a study card
 - open a due-card review list
 
@@ -36,7 +37,14 @@ Using `lazy.nvim`:
   dir = "~/devs/repos/personal/glossa.nvim",
   config = function()
     require("glossa").setup({
-      target_lang = "ko",
+      lookup = {
+        source_lang = "en",
+        target_lang = "ko",
+      },
+      replace = {
+        source_lang = "ja",
+        target_lang = "en",
+      },
     })
   end,
 }
@@ -53,6 +61,8 @@ Direct runtimepath test:
 
 - `:GlossaLookup [text]`
 - `:'<,'>GlossaLookup`
+- `:GlossaReplace [text]`
+- `:'<,'>GlossaReplace`
 - `:GlossaSave`
 - `:GlossaReview`
 - `:GlossaStats`
@@ -64,6 +74,8 @@ No default keymaps are installed. Suggested mappings:
 ```lua
 vim.keymap.set("n", "<leader>gl", "<Plug>(GlossaLookup)")
 vim.keymap.set("x", "<leader>gl", "<Plug>(GlossaLookup)")
+vim.keymap.set("n", "<leader>gR", "<Plug>(GlossaReplace)")
+vim.keymap.set("x", "<leader>gR", "<Plug>(GlossaReplace)")
 vim.keymap.set("n", "<leader>gs", "<Plug>(GlossaSave)")
 vim.keymap.set("n", "<leader>gr", "<Plug>(GlossaReview)")
 vim.keymap.set("n", "<leader>gt", "<Plug>(GlossaStats)")
@@ -74,9 +86,15 @@ vim.keymap.set("n", "<leader>gt", "<Plug>(GlossaStats)")
 ```lua
 require("glossa").setup({
   provider = "google",
-  source_lang = "auto",
-  target_lang = "ko",
   data_file = vim.fn.stdpath("data") .. "/glossa.nvim/cards.json",
+  lookup = {
+    source_lang = "en",
+    target_lang = "ko",
+  },
+  replace = {
+    source_lang = "ja",
+    target_lang = "en",
+  },
   google = {
     endpoint = "https://translate.googleapis.com/translate_a/single",
     timeout_ms = 8000,
@@ -88,6 +106,10 @@ require("glossa").setup({
   },
 })
 ```
+
+`lookup` controls popup translations.
+
+`replace` controls `:GlossaReplace` and `<Plug>(GlossaReplace)`, which replace the current word, range, or visual selection directly in the buffer.
 
 ## Next Step
 

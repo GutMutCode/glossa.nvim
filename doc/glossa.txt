@@ -15,6 +15,10 @@ COMMANDS                                                     *glossa-commands*
 :GlossaLookup [text]                                          *:GlossaLookup*
     Look up explicit text, the current range, or the word under cursor.
 
+:GlossaReplace [text]                                        *:GlossaReplace*
+    Replace the current word, range, or visual selection with a
+    translation.
+
 :GlossaSave                                                    *:GlossaSave*
     Save the last lookup result to the local card store.
 
@@ -30,16 +34,25 @@ CONFIGURATION                                                 *glossa-config*
 Example: >lua
     require("glossa").setup({
       provider = "google",
-      target_lang = "ko",
+      lookup = {
+        source_lang = "en",
+        target_lang = "ko",
+      },
+      replace = {
+        source_lang = "ja",
+        target_lang = "en",
+      },
     })
 <
 
 Available options:
 
     provider       Provider module name under |lua/glossa/providers/|
-    source_lang    Source language, default "auto"
-    target_lang    Target language, default "ko"
     data_file      JSON storage file for saved cards
+    lookup.source_lang
+    lookup.target_lang
+    replace.source_lang
+    replace.target_lang
     google.endpoint
     google.timeout_ms
     window.border  Floating window border style
@@ -52,6 +65,7 @@ MAPPINGS                                                     *glossa-mappings*
 glossa.nvim defines only |<Plug>| mappings.
 
     <Plug>(GlossaLookup)
+    <Plug>(GlossaReplace)
     <Plug>(GlossaSave)
     <Plug>(GlossaReview)
     <Plug>(GlossaStats)
@@ -59,6 +73,8 @@ glossa.nvim defines only |<Plug>| mappings.
 Example: >lua
     vim.keymap.set("n", "<leader>gl", "<Plug>(GlossaLookup)")
     vim.keymap.set("x", "<leader>gl", "<Plug>(GlossaLookup)")
+    vim.keymap.set("n", "<leader>gR", "<Plug>(GlossaReplace)")
+    vim.keymap.set("x", "<leader>gR", "<Plug>(GlossaReplace)")
     vim.keymap.set("n", "<leader>gs", "<Plug>(GlossaSave)")
 <
 
