@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/glossa.png" alt="glossa.nvim banner">
+</p>
+
 # glossa.nvim
 
 Minimal Neovim scaffold for a language-learning plugin inspired by the lookup flow of `vim-translator`.
@@ -17,6 +21,7 @@ The bundled `mock` provider is still available for local UI and storage testing.
 
 ```text
 glossa.nvim/
+├─ assets/glossa.png
 ├─ plugin/glossa.lua
 ├─ lua/glossa/init.lua
 ├─ lua/glossa/lookup.lua
